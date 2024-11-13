@@ -1,5 +1,10 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,getCurrentInstance,onMounted} from 'vue'
+//import axios from 'axios'
+
+const {proxy} = getCurrentInstance() //拿到当前的api
+
+
 const getImageUrl = (user)=>{
   return new URL(`../assets/images/${user}.png`,import.meta.url).href
 }
@@ -27,6 +32,26 @@ const tableLabel = ref({
     totalBuy: "总购买",
 })
 
+// axios({
+//   url:'/api/home/getTableData',
+//   method:'get',
+// }).then(res=>{
+//   //console.log(res.data)
+//   // 生成随机数据，拦截请求
+//   if(res.data.code === 200){
+//     console.log(res.data.data.tableData)
+//     tableData.value = res.data.data.tableData
+//   }
+// })
+
+const getTableData = ()=>{
+  const data = proxy.$api.getTableData()
+  console.log(data)
+}
+onMounted(()=>{
+  getTableData()
+})
+
 </script>
 
 <template>
@@ -46,18 +71,19 @@ const tableLabel = ref({
         </div>
       </el-card>
 
-      <el-card shadow="hover">
-        <div class="user">
-          <img :src="getImageUrl('user')" class="user"/>
-          <div class="user-info">
-            <p class="user-info-admin">admin</p>
-            <p class="user-info-p">superAdministors</p>
-          </div>
-        </div>
-        <div class="login-info">
-          <p>上次登录时间：<span>2024-06-30</span></p>
-          <p>上次登录地点：<span>HZ</span></p>
-        </div>
+      <el-card shadow="hover" class="user-table">
+        <el-table :data="tableData">
+          <!-- //这里的key和label是自定义的属性，用来标识每一列的属性,渲染表格值 -->
+          <el-table-column 
+            v-for="(val,key) in tableLabel"
+            :key="key"
+            :prop="key"
+            :label="val"
+          >
+          </el-table-column>
+
+        </el-table>
+        
       </el-card>
     </el-col>
   </el-row>
@@ -100,6 +126,9 @@ const tableLabel = ref({
           margin-left:60px;
         }
       }
+    }
+    .user-table{
+      margin-top:20px;
     }
   }
 </style>
