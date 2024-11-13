@@ -6,8 +6,10 @@ import request from "./request";
 export default{
     getTableData() {
         return request({
-            url: '/api/home/getTableData',
+            //url: '/api/home/getTableData',
+            url:"https://apifoxmock.com/m1/4068509-0-default/api/home/getTable",
             method: 'get',
+            mock:false,
         });
     },
 };
