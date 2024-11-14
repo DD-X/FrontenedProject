@@ -13,7 +13,6 @@ import "@/api/mock.js";
 import api from "@/api/api.js";
 
 const pinia = createPinia();
-
 const app = createApp(App);
 
 app.config.globalProperties.$api = api;

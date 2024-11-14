@@ -7,9 +7,18 @@ export default{
     getTableData() {
         return request({
             //url: '/api/home/getTableData',
-            url:"https://apifoxmock.com/m1/4068509-0-default/api/home/getTable",
+            //url:"https://apifoxmock.com/m1/4068509-0-default/api/home/getTable",
+            url: '/home/getTableData',
             method: 'get',
-            mock:false,
+            //mock:true,
+        });
+    },
+    getCountData() {
+        return request({
+            url: '/home/getCountData',
+            method: 'get',
+            //mock:true,
         });
     },
 };
+

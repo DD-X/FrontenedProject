@@ -11,19 +11,10 @@ const getImageUrl = (user)=>{
 
 //这个tableData是假数据，等会我们使用axios请求mock数据
 const tableData = ref([
-    {
-      name: "Java",
-      todayBuy: 100,
-      monthBuy: 200,
-      totalBuy: 300,
-    },
-    {
-      name: "Python",
-      todayBuy: 100,
-      monthBuy: 200,
-      totalBuy: 300,
-    }
 ])
+
+const countData = ref({
+})
 
 const tableLabel = ref({
     name: "课程",
@@ -46,10 +37,19 @@ const tableLabel = ref({
 
 const getTableData = ()=>{
   const data = proxy.$api.getTableData()
-  console.log(data)
+  //console.log(data)
+  tableData.value = data.tableData
 }
+
+const getCountData = ()=>{
+  const data = proxy.$api.getCountData()
+  //console.log(data)
+  countData.value = data
+}
+
 onMounted(()=>{
   getTableData()
+  getCountData()
 })
 
 </script>
@@ -85,6 +85,19 @@ onMounted(()=>{
         </el-table>
         
       </el-card>
+    </el-col>
+    <el-col :span="16" style="margin-top:20px">
+      <el-card
+        :body-style="{display:'flex',padding:0}"
+        v-for="item in countData"
+        :key="item.name"
+      >
+      <component :is="item.icon" class="icons" :style="{background:item.color}"></component>
+      <div class="detail">
+        <p class="num">{{ item.value }}</p>
+        <p class="txt">{{ item.name }}</p>
+      </div>
+    </el-card>
     </el-col>
   </el-row>
 </template>
